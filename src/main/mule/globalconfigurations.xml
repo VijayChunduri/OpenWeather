@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	 <http:listener-config name="openweather-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${listener.port}" />
+    </http:listener-config>
+    <apikit:config name="openweather-config" api="openweather.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<configuration-properties doc:name="Configuration properties" doc:id="a5edddc8-81e6-4b3b-bd71-e5e9444a3bee" file="config_dev.yaml" />
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="1a3196bb-bc8a-4ab1-9309-aa8634f62a3d" basePath="${openweather.basepath}" >
+		<http:request-connection host="${openweather.host}" />
+	</http:request-config>
+	<api-gateway:autodiscovery apiId="16242167" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="67b60c53-8280-4985-8c1b-2b574e15dad8" flowRef="openweather-main" />
+	
+</mule>
